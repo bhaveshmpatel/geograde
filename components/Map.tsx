@@ -52,9 +52,8 @@ const Map: React.FC<MapProps> = ({ onLocationSelect }) => {
       const handleMapClick = (event: any) => {
         const { lng, lat } = event.lngLat; // Get the clicked coordinates
         console.log(`Clicked coordinates: ${lng}, ${lat}`); // Log the coordinates
-
         // Update marker position and add it to the map
-        setMarker((prevMarker) => {
+        setMarker((prevMarker: any) => {
           if (prevMarker) {
             // Remove the previous marker if it exists
             prevMarker.remove();

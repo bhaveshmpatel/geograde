@@ -13,8 +13,9 @@ export default function MapPage() {
     address: string
   } | undefined>()
 
-  return (
-    <div className="flex flex-col min-h-screen">
+  
+  
+  return (<div className="flex flex-col min-h-screen">
       <header className="bg-primary text-primary-foreground py-4">
         <div className="container mx-auto px-4">
           <nav className="flex justify-between items-center">
@@ -35,6 +36,7 @@ export default function MapPage() {
           </div>
           <div className="w-full lg:w-1/3">
             <DetailsPanel location={selectedLocation} />
+          <div>The given values are only for the purpose of demonstration the real values will be used in next round</div>
           </div>
         </div>
       </main>
@@ -47,4 +49,3 @@ export default function MapPage() {
     </div>
   )
 }
-
