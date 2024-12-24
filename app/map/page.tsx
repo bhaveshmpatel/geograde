@@ -36,7 +36,7 @@ export default function MapPage() {
           </div>
           <div className="w-full lg:w-1/3">
             <DetailsPanel location={selectedLocation} />
-          <div>The given values are only for the purpose of demonstration the real values will be used in next round</div>
+          <div>The given values are only for the purpose of demonstration, the real data will be used in the further round of the hackathon</div>
           </div>
         </div>
       </main>
