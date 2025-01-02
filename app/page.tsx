@@ -33,7 +33,7 @@ export default function LandingPage() {
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Discover Your Ideal Neighborhood</h1>
             <p className="text-xl mb-8">Analyze and compare areas based on key livability factors</p>
             <Button size="lg" asChild>
-              <Link href="/map">Try It Now</Link>
+              <Link href="/map" className="transition-transform transform hover:scale-105">Try It Now</Link>
             </Button>
           </div>
         </section>
@@ -60,7 +60,7 @@ export default function LandingPage() {
             </div>
             <div className="text-center mt-8">
               <Button asChild>
-                <Link href="/features">View All Features</Link>
+                <Link href="/features" className="transition-transform transform hover:scale-105">View All Features</Link>
               </Button>
             </div>
           </div>
@@ -79,7 +79,7 @@ export default function LandingPage() {
             </div>
             <div className="text-center mt-8">
               <Button asChild>
-                <Link href="/parameters">View All Parameters</Link>
+                <Link href="/parameters" className="transition-transform transform hover:scale-105">View All Parameters</Link>
               </Button>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default function LandingPage() {
               view of an area's livability, empowering you to choose the best location for your needs.
             </p>
             <Button asChild>
-              <Link href="/map">Start Exploring</Link>
+              <Link href="/map" className="transition-transform transform hover:scale-105">Start Exploring</Link>
             </Button>
           </div>
         </section>
@@ -111,7 +111,7 @@ export default function LandingPage() {
 
 function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
-    <Card>
+    <Card className="transition-transform transform hover:scale-105 hover:shadow-lg">
       <CardHeader>
         <div className="mb-4 flex items-center justify-center">{icon}</div>
         <CardTitle>{title}</CardTitle>
@@ -125,7 +125,7 @@ function FeatureCard({ icon, title, description }: { icon: React.ReactNode, titl
 
 function ParameterCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
-    <Card>
+    <Card className="transition-transform transform hover:scale-105 hover:shadow-lg">
       <CardHeader>
         <div className="mb-2 flex items-center space-x-2">
           {icon}
@@ -138,4 +138,3 @@ function ParameterCard({ icon, title, description }: { icon: React.ReactNode, ti
     </Card>
   )
 }
-

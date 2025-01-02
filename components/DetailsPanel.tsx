@@ -28,8 +28,6 @@ export default function DetailsPanel({ location }: DetailsPanelProps) {
 
   useEffect(() => {
     if (location) {
-      // In a real application, you would fetch data from an API here
-      // For this example, we'll use mock data
       const mockData: AreaDetails = {
         literacyRate: Math.random() * 100,
         gdp: Math.random() * 100000,
@@ -42,7 +40,6 @@ export default function DetailsPanel({ location }: DetailsPanelProps) {
 
       setAreaDetails(mockData)
 
-      // Calculate livability score
       const score = (
         mockData.literacyRate * 0.2 +
         (mockData.gdp / 1000) * 0.2 +
@@ -97,7 +94,7 @@ export default function DetailsPanel({ location }: DetailsPanelProps) {
           </div>
           <Progress value={areaDetails.forestCover} />
         </div>
-        <div className="grid grid-cols-3 gap-4 pt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
           <div className="text-center">
             <div className="text-2xl font-bold">{areaDetails.nearbyHospitals}</div>
             <div className="text-xs text-muted-foreground">Hospitals</div>
@@ -126,4 +123,3 @@ export default function DetailsPanel({ location }: DetailsPanelProps) {
     </Card>
   )
 }
-

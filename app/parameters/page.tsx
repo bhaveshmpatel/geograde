@@ -46,7 +46,7 @@ export default function ParametersPage() {
 
 function ParameterCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
-    <Card>
+    <Card className="transition-transform transform hover:scale-105 hover:shadow-lg duration-300 ease-in-out">
       <CardHeader>
         <div className="mb-2 flex items-center space-x-2">
           {icon}
@@ -59,4 +59,3 @@ function ParameterCard({ icon, title, description }: { icon: React.ReactNode, ti
     </Card>
   )
 }
-

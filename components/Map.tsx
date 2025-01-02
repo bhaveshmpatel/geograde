@@ -46,7 +46,6 @@ const Map: React.FC<MapProps> = ({ onLocationSelect }) => {
       }
 
       // Add event listeners
-      
 
       // Add click event listener to the map
       const handleMapClick = (event: any) => {
@@ -83,7 +82,6 @@ const Map: React.FC<MapProps> = ({ onLocationSelect }) => {
 
       // Attach the click event listener
       mapInstance.current.on('click', handleMapClick);
-
       
     }
   }, []); // Empty dependency array to run only once
@@ -93,10 +91,8 @@ const Map: React.FC<MapProps> = ({ onLocationSelect }) => {
     console.log(`Calculating score for location: ${lat}, ${lng}`);
   }
 
-
-
   return (
-    <div className="w-full h-[600px] rounded-lg overflow-hidden bg-white shadow-lg">
+    <div className="w-full h-[600px] md:h-[700px] lg:h-[800px] xl:h-[900px] 2xl:h-[1000px] rounded-lg overflow-hidden bg-white shadow-lg">
       <div className="p-4 border-b">
         <div className="flex space-x-2">
           <Input
@@ -122,4 +118,3 @@ const Map: React.FC<MapProps> = ({ onLocationSelect }) => {
 
 // Wrap the component with React.memo
 export default React.memo(Map);
-
