@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 export default function FeaturesPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen" style={{ backgroundImage: "url('/bg.jpg')" }}>
       <header className="bg-primary text-primary-foreground py-4">
         <div className="container mx-auto px-4">
           <nav className="flex justify-between items-center">
@@ -57,7 +57,6 @@ export default function FeaturesPage() {
 
       <footer className="bg-primary text-primary-foreground py-4">
         <div className="container mx-auto px-4 text-center">
-          <p>&copy; 2023 Area Livability Scorer. All rights reserved.</p>
         </div>
       </footer>
     </div>

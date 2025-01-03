@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
+import Link from 'next/link'
+
 
 interface AreaDetails {
   literacyRate: number
@@ -67,33 +69,53 @@ export default function DetailsPanel({ location }: DetailsPanelProps) {
   }
 
   return (
-    <Card>
+
+    <Card className="w-full sm:w-2/3 lg:w-full xl:w-[200%]">
       <CardHeader>
         <CardTitle>Area Details</CardTitle>
         <p className="text-sm text-muted-foreground">{location.address}</p>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm">
-            <span>Literacy Rate</span>
-            <span>{areaDetails.literacyRate.toFixed(1)}%</span>
+        {/* Grid for 20 parameters */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Example for the first two parameters */}
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span>Literacy Rate</span>
+              <span>{areaDetails.literacyRate.toFixed(1)}%</span>
+            </div>
+            <Progress value={areaDetails.literacyRate} />
           </div>
-          <Progress value={areaDetails.literacyRate} />
-        </div>
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm">
-            <span>GDP (per capita)</span>
-            <span>${areaDetails.gdp.toFixed(2)}</span>
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span>GDP (per capita)</span>
+              <span>${areaDetails.gdp.toFixed(2)}</span>
+            </div>
+            <Progress value={(areaDetails.gdp / 100000) * 100} />
           </div>
-          <Progress value={(areaDetails.gdp / 100000) * 100} />
-        </div>
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm">
-            <span>Forest Cover</span>
-            <span>{areaDetails.forestCover.toFixed(1)}%</span>
+
+          {/* Continue adding more parameters */}
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span>Forest Cover</span>
+              <span>{areaDetails.forestCover.toFixed(1)}%</span>
+            </div>
+            <Progress value={areaDetails.forestCover} />
           </div>
-          <Progress value={areaDetails.forestCover} />
+
+          {/* Add the remaining parameters here */}
+          {Array.from({ length: 16 }).map((_, index) => (
+            <div className="space-y-2" key={index}>
+              <div className="flex justify-between text-sm">
+                <span>Parameter {index + 5}</span>
+                <span>{areaDetails[`param${index + 5}`]}</span>
+              </div>
+              <Progress value={areaDetails[`param${index + 5}`]} />
+            </div>
+          ))}
         </div>
+
+        {/* Grid for the summary */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
           <div className="text-center">
             <div className="text-2xl font-bold">{areaDetails.nearbyHospitals}</div>
@@ -108,6 +130,7 @@ export default function DetailsPanel({ location }: DetailsPanelProps) {
             <div className="text-xs text-muted-foreground">Police Stations</div>
           </div>
         </div>
+
         {livabilityScore !== null && (
           <div className="pt-6">
             <h3 className="text-lg font-semibold mb-2">Livability Score</h3>
@@ -120,6 +143,30 @@ export default function DetailsPanel({ location }: DetailsPanelProps) {
           </div>
         )}
       </CardContent>
+
+      {/* Buttons at the bottom */}
+      <div className="flex justify-between pt-6">
+        <Link href="/" passHref>
+          <button className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+            Home
+          </button>
+        </Link>
+        <Link href="/detail-report" passHref>
+          <button className="px-4 py-2 text-white bg-gray-600 rounded-md hover:bg-gray-700">
+            Detail Report
+          </button>
+        </Link>
+        <Link href="/compare" passHref>
+          <button className="px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700">
+            Compare
+          </button>
+        </Link>
+      </div>
     </Card>
+
+
+
+
+
   )
 }

@@ -1,13 +1,27 @@
+import Hero from "@/components/Hero"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Spotlight } from "@/components/ui/Spotlight"
+import { TextGenerateEffect } from "@/components/ui/TextGenerateEffect"
 import { MapPin, BarChart2, TreePine, Building2, Hospital, ShieldCheck, Zap } from 'lucide-react'
 import Link from "next/link"
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen" style={{ backgroundImage: "url('/bg.jpg')" }}>
       <header className="bg-primary text-primary-foreground py-4">
         <div className="container mx-auto px-4">
+          <div>
+                  <Spotlight
+                    className="-top-40 -left-10 md:-left-32 md:-top-20 h-screen"
+                    fill="white"
+                  />
+                  <Spotlight
+                    className="h-[80vh] w-[50vw] top-10 left-full"
+                    fill="purple"
+                  />
+                  <Spotlight className="left-80 top-28 h-[80vh] w-[50vw]" fill="blue" />
+                </div>
           <nav className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
               <div className="logo">
@@ -30,8 +44,17 @@ export default function LandingPage() {
       <main className="flex-grow">
         <section className="bg-gradient-to-b from-primary to-primary/50 text-primary-foreground py-20">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">Discover Your Ideal Neighborhood</h1>
-            <p className="text-xl mb-8">Analyze and compare areas based on key livability factors</p>
+          
+            <TextGenerateEffect
+              words="Discover Your Ideal Neighborhood"
+              className="text-center text-[40px] md:text-5xl lg:text-6xl"
+            />
+
+          <p className="mt-4 text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl">
+            Analyze and compare areas based on key livability factors.
+          </p>
+          
+            {/* <h1 className="text-4xl md:text-6xl font-bold mb-6">Discover Your Ideal Neighborhood</h1> */}
             <Button size="lg" asChild>
               <Link href="/map" className="transition-transform transform hover:scale-105">Try It Now</Link>
             </Button>

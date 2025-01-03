@@ -5,7 +5,7 @@ import { Search } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { OLA_MAPS_API_KEY } from '@/utils/ola-maps'
-import { OlaMaps } from '@/OlaMapsWebSDK';
+import { OlaMaps } from '@/OlaMapsWebSDK'
 
 interface MapProps {
   onLocationSelect: (lat: number, lon: number, address: string) => void
@@ -19,77 +19,93 @@ const Map: React.FC<MapProps> = ({ onLocationSelect }) => {
   const mapRef = useRef<HTMLDivElement>(null)
   const mapInstance = useRef<any>(null)
   const [marker, setMarker] = useState<any>(null) // Store the marker instance
-  let flag = 1
+  const [searchQuery, setSearchQuery] = useState<string>("")
+
   useEffect(() => {
-    if (flag > 1){
-      return;
-    }
-    console.log("Component mounted"); // Debugging log
-    console.log(flag)
-    flag += 1
     if (mapRef.current) {
       const mapOptions = {
         style: "https://api.olamaps.io/tiles/vector/v1/styles/default-light-standard/style.json",
         container: mapRef.current,
-        center: [77.61648476788898, 12.931423492103944],
+        center: [77.61648476788898, 12.931423492103944], // Default center (example)
         zoom: 12,
-      };
-      
-      // Initialize the map
-      mapInstance.current = olaMaps.init(mapOptions);
-      
-      // Check if the map instance is created
-      if (mapInstance.current) {
-        console.log("Map initialized successfully");
-      } else {
-        console.error("Failed to initialize map");
       }
 
-      // Add event listeners
+      // Initialize the map
+      mapInstance.current = olaMaps.init(mapOptions)
 
       // Add click event listener to the map
       const handleMapClick = (event: any) => {
-        const { lng, lat } = event.lngLat; // Get the clicked coordinates
-        console.log(`Clicked coordinates: ${lng}, ${lat}`); // Log the coordinates
-        // Update marker position and add it to the map
+        const { lng, lat } = event.lngLat // Get the clicked coordinates
+        console.log(`Clicked coordinates: ${lng}, ${lat}`)
         setMarker((prevMarker: any) => {
           if (prevMarker) {
-            // Remove the previous marker if it exists
-            prevMarker.remove();
-          }
-          if (marker) {
-            marker.remove();
+            prevMarker.remove() // Remove previous marker
           }
 
-          // Create a new marker
           const newMarker = olaMaps.addMarker({
-            // offset: [0, 0], // Adjust offset as needed
-            // anchor: [0, 0], // Adjust anchor position as needed
             color: 'red',
             draggable: true,
           })
-          .setLngLat([lng, lat]) // Set the marker's position
-          .addTo(mapInstance.current); // Add marker to the map
+            .setLngLat([lng, lat])
+            .addTo(mapInstance.current)
 
-          // Return the new marker instance
-          return newMarker;
-        });
+          return newMarker
+        })
 
-        // Calculate the score based on the clicked location
-        onLocationSelect(lat, lng, '');
-        calculateScore(lng, lat);
-      };
+        onLocationSelect(lat, lng, '')
+      }
 
       // Attach the click event listener
-      mapInstance.current.on('click', handleMapClick);
-      
+      mapInstance.current.on('click', handleMapClick)
     }
-  }, []); // Empty dependency array to run only once
+  }, []) // Empty dependency array to run only once
 
-  const calculateScore = (lng: number, lat: number) => {
-    // Implement your score calculation logic here
-    console.log(`Calculating score for location: ${lat}, ${lng}`);
+  const handleSearch = async () => {
+  if (searchQuery) {
+    try {
+      const response = await fetch(`https://api.olamaps.io/places/v1/geocode?address=${searchQuery}&api_key=${OLA_MAPS_API_KEY}`)
+
+      // Check if the response is JSON
+      if (response.ok) {
+        const contentType = response.headers.get('content-type')
+        if (contentType && contentType.includes('application/json')) {
+          const data = await response.json()
+
+          if (data && data.features && data.features.length > 0) {
+            const { lng, lat, address } = data.features[0].geometry.coordinates
+            
+            // Center the map and place a marker
+            mapInstance.current.setCenter([lng, lat])
+            setMarker((prevMarker: any) => {
+              if (prevMarker) {
+                prevMarker.remove()
+              }
+              const newMarker = olaMaps.addMarker({
+                color: 'blue',
+                draggable: false,
+              })
+                .setLngLat([lng, lat])
+                .addTo(mapInstance.current)
+              return newMarker
+            })
+
+            // Pass the selected location back to the parent
+            onLocationSelect(lat, lng, address)
+          } else {
+            console.error("No results found for the given search query.")
+          }
+        } else {
+          console.error("Expected JSON, but received:", contentType)
+        }
+      } else {
+        console.error("Failed to fetch data:", response.status, response.statusText)
+      }
+    } catch (error) {
+      console.error("Error fetching location data:", error)
+    }
   }
+}
+
 
   return (
     <div className="w-full h-[600px] md:h-[700px] lg:h-[800px] xl:h-[900px] 2xl:h-[1000px] rounded-lg overflow-hidden bg-white shadow-lg">
@@ -98,23 +114,21 @@ const Map: React.FC<MapProps> = ({ onLocationSelect }) => {
           <Input
             type="text"
             placeholder="Search for a location"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="flex-1"
           />
-          <Button onClick={() => { /* Implement search functionality */ }}>
+          <Button onClick={handleSearch}>
             <Search className="w-4 h-4 mr-2" />
             Search
           </Button>
         </div>
       </div>
       <div className="relative h-[calc(100%-73px)]">
-        <div 
-          ref={mapRef}
-          className="w-full h-full"
-        />
+        <div ref={mapRef} className="w-full h-full" />
       </div>
     </div>
   )
 }
 
-// Wrap the component with React.memo
-export default React.memo(Map);
+export default React.memo(Map)
