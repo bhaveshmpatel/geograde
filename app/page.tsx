@@ -68,7 +68,7 @@ export default function LandingPage() {
 
         <section id="parameters" className="bg-muted py-20">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">Livability Parameters</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">Area Quality Parameters</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               <ParameterCard icon={<TreePine />} title="Forest Cover" description="Percentage of area covered by forests" />
               <ParameterCard icon={<Building2 />} title="GDP" description="Gross Domestic Product per capita" />
@@ -87,7 +87,7 @@ export default function LandingPage() {
 
         <section id="about" className="py-20">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-6">About Area Livability Scorer</h2>
+            <h2 className="text-3xl font-bold mb-6">About GeoGrade</h2>
             <p className="max-w-2xl mx-auto text-lg mb-8">
               Our mission is to help you make informed decisions about where to live, work, or invest. 
               By combining various data points and advanced analytics, we provide a comprehensive 
@@ -102,7 +102,6 @@ export default function LandingPage() {
 
       <footer className="bg-primary text-primary-foreground py-8">
         <div className="container mx-auto px-4 text-center">
-          <p>&copy; 2023 Area Livability Scorer. All rights reserved.</p>
         </div>
       </footer>
     </div>
