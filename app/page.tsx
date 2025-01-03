@@ -12,6 +12,7 @@ export default function LandingPage() {
       <header className="bg-primary text-primary-foreground py-4">
         <div className="container mx-auto px-4">
           <div>
+            
                   <Spotlight
                     className="-top-40 -left-10 md:-left-32 md:-top-20 h-screen"
                     fill="white"
@@ -27,7 +28,9 @@ export default function LandingPage() {
               <div className="logo">
                 <img src="/logo.png" alt="GeoGrade" width={125} height={125} />
               </div>
-              <div className="text-2xl font-bold">GeoGrade</div>
+              <div className="text-2xl font-bold">
+                <Link href="/" className="hover:underline">GeoGrade</Link>
+              </div>
             </div>
             <div className="space-x-4">
               <Link href="#features" className="hover:underline">Features</Link>
@@ -36,6 +39,7 @@ export default function LandingPage() {
               <Link href="/map" className="hover:underline">Map</Link>
               <Link href="/compare" className="hover:underline">Compare</Link>
               <Link href="/features" className="hover:underline">All Features</Link>
+              <Link href="/review" className="hover:underline">Review</Link>
             </div>
           </nav>
         </div>

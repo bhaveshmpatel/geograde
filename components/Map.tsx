@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useEffect, useRef, useState } from 'react'
 import { Search } from 'lucide-react'
 import { Input } from "@/components/ui/input"
@@ -61,51 +59,58 @@ const Map: React.FC<MapProps> = ({ onLocationSelect }) => {
   }, []) // Empty dependency array to run only once
 
   const handleSearch = async () => {
-  if (searchQuery) {
-    try {
-      const response = await fetch(`https://api.olamaps.io/places/v1/geocode?address=${searchQuery}&api_key=${OLA_MAPS_API_KEY}`)
+    if (searchQuery) {
+      try {
+        const response = await fetch(`https://api.olamaps.io/places/v1/geocode?address=${searchQuery}&api_key=${OLA_MAPS_API_KEY}`)
 
-      // Check if the response is JSON
-      if (response.ok) {
-        const contentType = response.headers.get('content-type')
-        if (contentType && contentType.includes('application/json')) {
-          const data = await response.json()
+        // Check if the response is JSON
+        if (response.ok) {
+          const contentType = response.headers.get('content-type')
+          if (contentType && contentType.includes('application/json')) {
+            const data = await response.json()
 
-          if (data && data.features && data.features.length > 0) {
-            const { lng, lat, address } = data.features[0].geometry.coordinates
-            
-            // Center the map and place a marker
-            mapInstance.current.setCenter([lng, lat])
-            setMarker((prevMarker: any) => {
-              if (prevMarker) {
-                prevMarker.remove()
-              }
-              const newMarker = olaMaps.addMarker({
-                color: 'blue',
-                draggable: false,
+            if (data && data.geocodingResults && data.geocodingResults.length > 0) {
+              const { lat, lng } = data.geocodingResults[0].geometry.location
+              const formattedAddress = data.geocodingResults[0].formatted_address
+
+              // Center the map and place a marker
+              mapInstance.current.setCenter([lng, lat])
+              setMarker((prevMarker: any) => {
+                if (prevMarker) {
+                  prevMarker.remove()
+                }
+                const newMarker = olaMaps.addMarker({
+                  color: 'blue',
+                  draggable: false,
+                })
+                  .setLngLat([lng, lat])
+                  .addTo(mapInstance.current)
+                return newMarker
               })
-                .setLngLat([lng, lat])
-                .addTo(mapInstance.current)
-              return newMarker
-            })
 
-            // Pass the selected location back to the parent
-            onLocationSelect(lat, lng, address)
+              // Pass the selected location back to the parent
+              onLocationSelect(lat, lng, formattedAddress)
+            } else {
+              console.error("No results found for the given search query.")
+            }
           } else {
-            console.error("No results found for the given search query.")
+            console.error("Expected JSON, but received:", contentType)
           }
         } else {
-          console.error("Expected JSON, but received:", contentType)
+          console.error("Failed to fetch data:", response.status, response.statusText)
         }
-      } else {
-        console.error("Failed to fetch data:", response.status, response.statusText)
+      } catch (error) {
+        console.error("Error fetching location data:", error)
       }
-    } catch (error) {
-      console.error("Error fetching location data:", error)
     }
   }
-}
 
+  // Handle keypress event for 'Enter'
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  }
 
   return (
     <div className="w-full h-[600px] md:h-[700px] lg:h-[800px] xl:h-[900px] 2xl:h-[1000px] rounded-lg overflow-hidden bg-white shadow-lg">
@@ -116,6 +121,7 @@ const Map: React.FC<MapProps> = ({ onLocationSelect }) => {
             placeholder="Search for a location"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyPress} // Add keydown event for Enter key
             className="flex-1"
           />
           <Button onClick={handleSearch}>
